@@ -2,9 +2,9 @@ import {useColorScheme} from 'react-native';
 import Theme from '../theme/colors';
 
 const useTheme = () => {
-  const isLightMode = useColorScheme();
+  const colorScheme = useColorScheme();
 
-  return isLightMode ? Theme.Light : Theme.Dark;
+  return colorScheme === 'light' ? Theme.Light : Theme.Dark;
 };
 
 export default useTheme;
