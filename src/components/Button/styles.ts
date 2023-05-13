@@ -2,7 +2,6 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#D81B60',
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderRadius: 4,
@@ -25,9 +24,6 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
   },
 
-  containerDisabled: {
-    backgroundColor: '#BDBDBD',
-  },
 
   title: {fontSize: 18, color: 'white', fontWeight: '500'},
 });
