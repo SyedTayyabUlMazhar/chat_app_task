@@ -1,8 +1,10 @@
 import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   container: {
-    borderWidth: 0.5,
     alignSelf: 'stretch',
+  },
+  input: {
+    borderWidth: 0.5,
     height: 50,
     paddingHorizontal: 16,
     borderColor: 'grey',
@@ -12,5 +14,9 @@ export default StyleSheet.create({
 
   focused: {
     borderWidth: 1,
+  },
+
+  errorText: {
+    marginTop: 8,
   },
 });

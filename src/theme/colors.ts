@@ -2,6 +2,7 @@ import {ThemeType} from './types';
 
 const Base = {
   disabled: '#BDBDBD',
+  error: 'red',
 };
 
 const Light: ThemeType = {

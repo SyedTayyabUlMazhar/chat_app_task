@@ -4,4 +4,5 @@ export type ThemeType = {
   background: string;
   primaryText: string;
   secondaryText: string;
+  error: string;
 };
