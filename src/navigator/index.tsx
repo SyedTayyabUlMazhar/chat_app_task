@@ -10,6 +10,7 @@ const Navigator = () => {
   const theme = useTheme();
   return (
     <Stack.Navigator
+      initialRouteName="LogIn"
       screenOptions={{
         cardStyle: {backgroundColor: theme.background},
         headerStyle: {
@@ -22,6 +23,11 @@ const Navigator = () => {
         name="SignUp"
         options={{title: 'Sign Up'}}
         component={Screens.SignUp}
+      />
+      <Stack.Screen
+        name="LogIn"
+        options={{title: 'Login'}}
+        component={Screens.LogIn}
       />
     </Stack.Navigator>
   );
