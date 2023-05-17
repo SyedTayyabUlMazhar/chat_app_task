@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import 'react-native-gesture-handler';
+
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import useTheme from './src/hooks/useTheme';
 import Components from './src/components';
