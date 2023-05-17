@@ -5,6 +5,8 @@ import {View} from 'react-native';
 import Components from '../../components';
 import {LogInFields, LogInSchema} from './schema';
 import styles from './styles';
+import useDispatch from '../../hooks/useDispatch';
+import Actions from '../../redux/actions';
 
 const LogIn = () => {
   const form = useForm<LogInFields>({
@@ -15,11 +17,13 @@ const LogIn = () => {
       : undefined,
   });
 
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<LogInFields> = async data => {
     console.log('onSubmit: ', data);
     setIsLoading(true);
+    await dispatch(Actions.User.Thunk.signInRequest(data.email, data.password));
     setIsLoading(false);
   };
 

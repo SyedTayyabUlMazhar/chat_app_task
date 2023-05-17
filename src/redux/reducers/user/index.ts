@@ -4,8 +4,14 @@ import {UserReducerType} from './types';
 
 const initialState: UserReducerType = {};
 
+const isSignUpOrSignInSuccessAction = (action: {type: string}) =>
+  [
+    Actions.User.Reducer.signInSuccess.type,
+    Actions.User.Reducer.signUpSuccess.type,
+  ].includes(action.type);
+
 const UserReducer = createReducer(initialState, builder => {
-  builder.addCase(Actions.User.Reducer.signUpSuccess, (state, action) => {
+  builder.addMatcher(isSignUpOrSignInSuccessAction, (state, action) => {
     state.user = action.payload.user;
   });
 });

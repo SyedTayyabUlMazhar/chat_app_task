@@ -4,17 +4,31 @@ import {Dispatch} from '@reduxjs/toolkit';
 import Actions from '..';
 import Collections from '../../../collections';
 import FirebaseUtil from '../../../utils/FirebaseUtil';
+import {Alert} from 'react-native';
 
-const delay = (ms: number) => {
-  return new Promise<void>(res => setTimeout(res, ms));
-};
 const signInRequest =
   (email: string, password: string) => async (dispatch: Dispatch) => {
-    console.log('SigIn Loading:', {email, password});
+    try {
+      const authResult = await auth().signInWithEmailAndPassword(
+        email,
+        password,
+      );
 
-    await delay(2000);
-    console.log('SigIn Done:', {email, password});
-    dispatch(Actions.User.Reducer.signInSuccess({email, password}));
+      const userDoc = (
+        await Collections.Users.doc(authResult.user.uid).get()
+      ).data();
+      if (!userDoc) {
+        Alert.alert('Error', "Couldn't retrieve user's data");
+        return {ok: false};
+      }
+      dispatch(Actions.User.Reducer.signInSuccess({user: userDoc}));
+      return {ok: true};
+    } catch (e: unknown) {
+      FirebaseUtil.getFormattedError(
+        e as ReactNativeFirebase.NativeFirebaseError,
+      );
+      return {ok: false};
+    }
   };
 
 const signUpRequest =
@@ -25,7 +39,6 @@ const signUpRequest =
         email,
         password,
       );
-      console.log(authResult);
       const userData = {
         uid: authResult.user.uid,
         email,
