@@ -1,4 +1,6 @@
+import Routes from './routes';
+
 export type ParamList = {
-  SignUp: undefined;
-  LogIn: undefined;
+  [Routes.SignUp]: undefined;
+  [Routes.LogIn]: undefined;
 };
