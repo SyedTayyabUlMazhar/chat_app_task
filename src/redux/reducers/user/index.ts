@@ -1,9 +1,12 @@
 import {createReducer} from '@reduxjs/toolkit';
 import Actions from '../../actions';
+import {UserReducerType} from './types';
 
-const UserReducer = createReducer({}, builder => {
-  builder.addCase(Actions.User.Reducer.signInSuccess, (state, action) => {
-    console.log('Action: ', action, 'State:', state);
+const initialState: UserReducerType = {};
+
+const UserReducer = createReducer(initialState, builder => {
+  builder.addCase(Actions.User.Reducer.signUpSuccess, (state, action) => {
+    state.user = action.payload.user;
   });
 });
 

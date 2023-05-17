@@ -12,6 +12,9 @@ const SignUp = () => {
   const form = useForm<SignUpFields>({
     mode: 'onChange',
     resolver: yupResolver(SignUpSchema),
+    defaultValues: __DEV__
+      ? {email: 'johndoe@getnada.com', name: 'John Doe', password: 'Code@123'}
+      : undefined,
   });
 
   const dispatch = useDispatch();
@@ -20,7 +23,9 @@ const SignUp = () => {
   const onSubmit: SubmitHandler<SignUpFields> = async data => {
     console.log('onSubmit: ', data);
     setIsLoading(true);
-    await dispatch(Actions.User.Thunk.signUpRequest(data.email, data.password));
+    await dispatch(
+      Actions.User.Thunk.signUpRequest(data.email, data.password, data.name),
+    );
     setIsLoading(false);
   };
 
