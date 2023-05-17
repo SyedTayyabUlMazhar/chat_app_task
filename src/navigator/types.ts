@@ -1,3 +1,3 @@
 export type ParamList = {
-  Test: undefined;
+  SignUp: undefined;
 };
