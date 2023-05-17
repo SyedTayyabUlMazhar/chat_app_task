@@ -1,5 +1,5 @@
 import {ReactNativeFirebase} from '@react-native-firebase/app';
-import {Alert} from 'react-native';
+import MessageUtil from './MessageUtil';
 
 class FirebaseUtil {
   static getFormattedError(e: ReactNativeFirebase.NativeFirebaseError) {
@@ -17,7 +17,7 @@ class FirebaseUtil {
 
     const formattedError = {error: {code, message}};
     console.log(e);
-    Alert.alert('Error', message);
+    MessageUtil.showError(message);
 
     return formattedError;
   }

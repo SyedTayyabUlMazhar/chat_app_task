@@ -4,7 +4,7 @@ import {Dispatch} from '@reduxjs/toolkit';
 import Actions from '..';
 import Collections from '../../../collections';
 import FirebaseUtil from '../../../utils/FirebaseUtil';
-import {Alert} from 'react-native';
+import MessageUtil from '../../../utils/MessageUtil';
 
 const signInRequest =
   (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -18,7 +18,7 @@ const signInRequest =
         await Collections.Users.doc(authResult.user.uid).get()
       ).data();
       if (!userDoc) {
-        Alert.alert('Error', "Couldn't retrieve user's data");
+        MessageUtil.showError("Couldn't retrieve user's data");
         return {ok: false};
       }
       dispatch(Actions.User.Reducer.signInSuccess({user: userDoc}));
