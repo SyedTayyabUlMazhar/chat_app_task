@@ -1,4 +1,4 @@
-import React from 'react';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import Components from '../../components';
@@ -8,6 +8,7 @@ import styles from './styles';
 const SignUp = () => {
   const form = useForm<SignUpFields>({
     mode: 'onChange',
+    resolver: yupResolver(SignUpSchema),
   });
 
   const onSubmit: SubmitHandler<SignUpFields> = data => {
