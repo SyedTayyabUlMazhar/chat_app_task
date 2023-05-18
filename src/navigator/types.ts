@@ -4,3 +4,7 @@ export type AuthStackParamList = {
   [Routes.SignUp]: undefined;
   [Routes.LogIn]: undefined;
 };
+
+export type AppStackParamList = {
+  [Routes.Home]: undefined;
+};
