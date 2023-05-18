@@ -6,4 +6,6 @@ const signInSuccess =
 const signUpSuccess =
   createActionCreator<SignUpSuccessPayload>('SIGN_UP_SUCCESS');
 
-export {signInSuccess, signUpSuccess};
+const logout = createActionCreator('LOGOUT');
+
+export {signInSuccess, signUpSuccess, logout};

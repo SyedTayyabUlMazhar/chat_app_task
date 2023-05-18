@@ -11,6 +11,7 @@ const isSignUpOrSignInSuccessAction = (action: {type: string}) =>
   ].includes(action.type);
 
 const UserReducer = createReducer(initialState, builder => {
+  builder.addCase(Actions.User.Reducer.logout, () => initialState);
   builder.addMatcher(isSignUpOrSignInSuccessAction, (state, action) => {
     state.user = action.payload.user;
   });
