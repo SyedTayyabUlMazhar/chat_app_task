@@ -1,27 +1,36 @@
 import React from 'react';
-import useTheme from '../../../hooks/useTheme';
-import BaseButton from '../BaseButton';
+import {ActivityIndicator, TouchableOpacity} from 'react-native';
 import {TextButtonProps} from '../types';
+import styles from './styles';
+import useTheme from '../../../hooks/useTheme';
 
 const Text = (props: TextButtonProps) => {
   const theme = useTheme();
+  const {
+    style,
+    isLoading,
+    disabled,
+    TextComponent,
+    title,
+    loaderColor = theme.disabled,
+    ...rest
+  } = props;
 
-  const {isLoading, disabled, style, titleStyle, ...rest} = props;
-
-  const _style: TextButtonProps['style'] = [style];
-
-  const _titleStyle = [
-    {color: isLoading || disabled ? theme.disabled : theme.primary},
-    titleStyle,
-  ];
+  const _disabled = isLoading || disabled;
 
   return (
-    <BaseButton
-      {...{...rest, isLoading, disabled}}
-      loaderColor={theme.disabled}
-      style={_style}
-      titleStyle={_titleStyle}
-    />
+    <TouchableOpacity
+      style={[styles.container, style]}
+      disabled={_disabled}
+      {...rest}>
+      {isLoading ? (
+        <ActivityIndicator color={loaderColor} />
+      ) : (
+        <TextComponent style={_disabled ? styles.disabledOpacity : null}>
+          {title}
+        </TextComponent>
+      )}
+    </TouchableOpacity>
   );
 };
 
