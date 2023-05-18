@@ -1,16 +1,16 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import Screens from '../screens';
-import {ParamList} from './types';
+import {AuthStackParamList} from './types';
 import useTheme from '../hooks/useTheme';
 import Routes from './routes';
 
-const Stack = createStackNavigator<ParamList>();
+const AuthStack = createStackNavigator<AuthStackParamList>();
 
 const Navigator = () => {
   const theme = useTheme();
   return (
-    <Stack.Navigator
+    <AuthStack.Navigator
       initialRouteName={Routes.LogIn}
       screenOptions={{
         cardStyle: {backgroundColor: theme.background},
@@ -20,17 +20,17 @@ const Navigator = () => {
         },
         headerTintColor: theme.secondaryText,
       }}>
-      <Stack.Screen
+      <AuthStack.Screen
         name={Routes.SignUp}
         options={{title: 'Signup'}}
         component={Screens.SignUp}
       />
-      <Stack.Screen
+      <AuthStack.Screen
         name={Routes.LogIn}
         options={{title: 'Login'}}
         component={Screens.LogIn}
       />
-    </Stack.Navigator>
+    </AuthStack.Navigator>
   );
 };
 

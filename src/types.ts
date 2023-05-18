@@ -1,5 +1,5 @@
 import {StackScreenProps as RNStackScreenProps} from '@react-navigation/stack';
-import {ParamList} from './navigator/types';
+import {AuthStackParamList} from './navigator/types';
 
 export type User = {
   uid: string;
@@ -7,7 +7,5 @@ export type User = {
   email: string;
 };
 
-export type StackScreenProps<K extends keyof ParamList> = RNStackScreenProps<
-  ParamList,
-  K
->;
+export type AuthStackScreenProps<K extends keyof AuthStackParamList> =
+  RNStackScreenProps<AuthStackParamList, K>;

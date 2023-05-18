@@ -6,11 +6,11 @@ import Components from '../../components';
 import useDispatch from '../../hooks/useDispatch';
 import Routes from '../../navigator/routes';
 import Actions from '../../redux/actions';
-import {StackScreenProps} from '../../types';
+import {AuthStackScreenProps} from '../../types';
 import {LogInFields, LogInSchema} from './schema';
 import styles from './styles';
 
-const LogIn = (props: StackScreenProps<typeof Routes.LogIn>) => {
+const LogIn = (props: AuthStackScreenProps<typeof Routes.LogIn>) => {
   const {navigation} = props;
 
   const form = useForm<LogInFields>({
