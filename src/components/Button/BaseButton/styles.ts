@@ -10,7 +10,7 @@ export default StyleSheet.create({
 
     elevation: 5,
     alignSelf: 'center',
-    height: 54,
+    height: 58,
   },
 
   containerFillParent: {
