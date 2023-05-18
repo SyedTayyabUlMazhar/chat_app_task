@@ -1,5 +1,8 @@
-import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import {
+  StackNavigationOptions,
+  createStackNavigator,
+} from '@react-navigation/stack';
+import React, {useMemo} from 'react';
 import Screens from '../screens';
 import {AppStackParamList, AuthStackParamList} from './types';
 import useTheme from '../hooks/useTheme';
@@ -14,29 +17,26 @@ const Navigator = () => {
   const user = useSelector(state => state.user.user);
   const isLoggedIn = Boolean(user);
 
+  const screenOptions: StackNavigationOptions = useMemo(
+    () => ({
+      cardStyle: {backgroundColor: theme.background},
+      headerStyle: {
+        backgroundColor: theme.background,
+        shadowColor: 'transparent',
+      },
+      headerTintColor: theme.secondaryText,
+    }),
+    [theme.background, theme.secondaryText],
+  );
+
   return isLoggedIn ? (
-    <AppStack.Navigator
-      screenOptions={{
-        cardStyle: {backgroundColor: theme.background},
-        headerStyle: {
-          backgroundColor: theme.background,
-          shadowColor: 'transparent',
-        },
-        headerTintColor: theme.secondaryText,
-      }}>
+    <AppStack.Navigator screenOptions={screenOptions}>
       <AppStack.Screen name="Home" component={Screens.Home} />
     </AppStack.Navigator>
   ) : (
     <AuthStack.Navigator
       initialRouteName={Routes.LogIn}
-      screenOptions={{
-        cardStyle: {backgroundColor: theme.background},
-        headerStyle: {
-          backgroundColor: theme.background,
-          shadowColor: 'transparent',
-        },
-        headerTintColor: theme.secondaryText,
-      }}>
+      screenOptions={screenOptions}>
       <AuthStack.Screen
         name={Routes.SignUp}
         options={{title: 'Signup'}}
