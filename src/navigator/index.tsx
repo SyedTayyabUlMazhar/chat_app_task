@@ -2,12 +2,13 @@ import {
   StackNavigationOptions,
   createStackNavigator,
 } from '@react-navigation/stack';
-import React, {useMemo} from 'react';
-import Screens from '../screens';
-import {AppStackParamList, AuthStackParamList} from './types';
-import useTheme from '../hooks/useTheme';
-import Routes from './routes';
+import React, {useCallback, useMemo} from 'react';
+import Components from '../components';
 import useSelector from '../hooks/useSelector';
+import useTheme from '../hooks/useTheme';
+import Screens from '../screens';
+import Routes from './routes';
+import {AppStackParamList, AuthStackParamList} from './types';
 
 const AuthStack = createStackNavigator<AuthStackParamList>();
 const AppStack = createStackNavigator<AppStackParamList>();
@@ -29,9 +30,17 @@ const Navigator = () => {
     [theme.background, theme.secondaryText],
   );
 
+  const headerRight = useCallback(() => <Components.HeaderLogoutButton />, []);
+
   return isLoggedIn ? (
     <AppStack.Navigator screenOptions={screenOptions}>
-      <AppStack.Screen name="Home" component={Screens.Home} />
+      <AppStack.Screen
+        name="Home"
+        component={Screens.Home}
+        options={{
+          headerRight: headerRight,
+        }}
+      />
     </AppStack.Navigator>
   ) : (
     <AuthStack.Navigator

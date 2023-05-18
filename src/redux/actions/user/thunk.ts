@@ -55,4 +55,9 @@ const signUpRequest =
     }
   };
 
-export {signInRequest, signUpRequest};
+const logoutRequest = () => async (dispatch: Dispatch) => {
+  await auth().signOut();
+  dispatch(Actions.User.Reducer.logout({}));
+};
+
+export {signInRequest, signUpRequest, logoutRequest};
