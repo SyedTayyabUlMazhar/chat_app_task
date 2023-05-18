@@ -1,7 +1,7 @@
 import {StyleProp} from 'react-native';
 import {TextStyle, TouchableOpacityProps} from 'react-native/types';
 
-export type FilledButtonProps = BaseButtonProps;
+export type FilledButtonProps = Omit<BaseButtonProps, 'loaderColor'>;
 
 export type BaseButtonProps = TouchableOpacityProps & {
   title: string;
@@ -9,4 +9,5 @@ export type BaseButtonProps = TouchableOpacityProps & {
   titleStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
   isLoading?: boolean;
+  loaderColor: string;
 };

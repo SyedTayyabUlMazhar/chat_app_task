@@ -11,6 +11,7 @@ const BaseButton = (props: BaseButtonProps) => {
     titleStyle,
     disabled,
     isLoading,
+    loaderColor,
     ...rest
   } = props;
 
@@ -23,7 +24,7 @@ const BaseButton = (props: BaseButtonProps) => {
   return (
     <TouchableOpacity style={_style} {...rest} disabled={isLoading || disabled}>
       {isLoading ? (
-        <ActivityIndicator color="white" />
+        <ActivityIndicator color={loaderColor} />
       ) : (
         <Text style={[styles.title, titleStyle]}>{title}</Text>
       )}
