@@ -7,13 +7,6 @@ export default StyleSheet.create({
     borderRadius: 4,
 
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
 
     elevation: 5,
     alignSelf: 'center',
@@ -24,6 +17,5 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
   },
 
-
-  title: {fontSize: 18, color: 'white', fontWeight: '500'},
+  title: {fontSize: 18, fontWeight: '500'},
 });

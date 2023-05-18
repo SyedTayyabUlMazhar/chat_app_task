@@ -43,7 +43,7 @@ const LogIn = () => {
         placeholder="Password"
         style={styles.input}
       />
-      <Components.Button
+      <Components.Button.Filled
         title="Login"
         style={styles.button}
         onPress={form.handleSubmit(onSubmit)}

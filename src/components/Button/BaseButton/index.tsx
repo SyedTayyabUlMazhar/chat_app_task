@@ -1,10 +1,9 @@
 import React from 'react';
 import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
-import {ButtonProps} from './types';
+import {BaseButtonProps} from '../types';
 import styles from './styles';
-import useTheme from '../../hooks/useTheme';
 
-const Button = (props: ButtonProps) => {
+const BaseButton = (props: BaseButtonProps) => {
   const {
     title,
     fillParent = true,
@@ -15,27 +14,21 @@ const Button = (props: ButtonProps) => {
     ...rest
   } = props;
 
-  const theme = useTheme();
-
   const _style = [
     styles.container,
-    {backgroundColor: theme.primary},
     fillParent ? styles.containerFillParent : null,
-    isLoading || disabled ? {backgroundColor: theme.disabled} : null,
     style,
   ];
 
   return (
-    <TouchableOpacity style={_style} {...rest}>
+    <TouchableOpacity style={_style} {...rest} disabled={isLoading || disabled}>
       {isLoading ? (
         <ActivityIndicator color="white" />
       ) : (
-        <Text style={[styles.title, titleStyle, {color: theme.primaryText}]}>
-          {title}
-        </Text>
+        <Text style={[styles.title, titleStyle]}>{title}</Text>
       )}
     </TouchableOpacity>
   );
 };
 
-export default Button;
+export default BaseButton;
