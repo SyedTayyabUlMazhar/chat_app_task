@@ -18,7 +18,14 @@ const Filled = (props: FilledButtonProps) => {
 
   const _titleStyle = [{color: theme.primaryText}, titleStyle];
 
-  return <BaseButton {...rest} style={_style} titleStyle={_titleStyle} />;
+  return (
+    <BaseButton
+      {...{...rest, isLoading, disabled}}
+      loaderColor="white"
+      style={_style}
+      titleStyle={_titleStyle}
+    />
+  );
 };
 
 export default Filled;
