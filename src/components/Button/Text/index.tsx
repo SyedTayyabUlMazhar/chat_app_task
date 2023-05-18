@@ -8,10 +8,7 @@ const Text = (props: TextButtonProps) => {
 
   const {isLoading, disabled, style, titleStyle, ...rest} = props;
 
-  const _style: TextButtonProps['style'] = [
-    {borderColor: isLoading || disabled ? theme.disabled : theme.primary},
-    style,
-  ];
+  const _style: TextButtonProps['style'] = [style];
 
   const _titleStyle = [
     {color: isLoading || disabled ? theme.disabled : theme.primary},
