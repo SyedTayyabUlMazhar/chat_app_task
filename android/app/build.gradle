@@ -2,6 +2,10 @@ apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: 'com.google.gms.google-services' // <- Add this line
 
+project.ext.vectoricons = [ iconFontNames: ['Fontisto.ttf', 'Zocial.ttf','Octicons.ttf', 'SimpleLineIcons.ttf', 'Foundation.ttf', 'FontAwesome5_Solid.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Brands.ttf', 'Feather.ttf', 'EvilIcons.ttf', 'MaterialIcons.ttf', 'FontAwesome.ttf', 'MaterialCommunityIcons.ttf', 'Ionicons.ttf', 'AntDesign.ttf', 'Entypo.ttf']]
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+
 import com.android.build.OutputFile
 
 /**
