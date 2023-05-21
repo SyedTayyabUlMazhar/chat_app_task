@@ -16,6 +16,7 @@ import ChatUtil from '../../utils/ChatUtil';
 
 export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
   const {
+    navigation,
     route: {
       params: {otherUser, chatRoomId},
     },
@@ -64,6 +65,8 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
         });
 
         await Promise.all([senderUserUpdate, receiverUserUpdate]);
+
+        navigation.setParams({chatRoomId: room.uid});
       } else {
         console.log('onSend: ChatRoom exists');
         const message: ChatMessage = ChatUtil.chatMessageFromIMessage(
@@ -78,7 +81,7 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
         console.log('onSend: message added to existing chatRoom: ', chatRoomId);
       }
     },
-    [chatRoomId, createChatRoom, currentUser.uid, otherUser.uid],
+    [chatRoomId, createChatRoom, currentUser.uid, navigation, otherUser.uid],
   );
 
   return (
