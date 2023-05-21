@@ -26,3 +26,18 @@ export type UserChatRoom = {
   roomId: string;
   otherUserId: string;
 };
+
+export type ChatMessage = {
+  uid: string;
+  senderId: string;
+  receiverId: string;
+  timestamp: Date;
+  content: string;
+};
+
+export type ChatRoom = {
+  uid: string;
+  participants: [string, string];
+  messages: ChatMessage[];
+  lastMessage?: ChatMessage;
+};
