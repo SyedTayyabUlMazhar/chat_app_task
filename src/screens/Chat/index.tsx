@@ -4,8 +4,10 @@ import {IMessage} from 'react-native-gifted-chat';
 import uuid from 'react-native-uuid';
 import Collections from '../../collections';
 import Components from '../../components';
+import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
 import Routes from '../../navigator/routes';
+import Actions from '../../redux/actions';
 import {
   AppStackScreenProps,
   ChatMessage,
@@ -21,6 +23,8 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
       params: {otherUser, chatRoomId},
     },
   } = props;
+
+  const dispatch = useDispatch();
 
   const currentUser = useSelector(state => state.user.user)!;
 
@@ -48,23 +52,37 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
         const room = createChatRoom(newMessages[0]);
         await Collections.ChatRooms.doc(room.uid).set(room);
 
-        const chatRoomForSenderUser: UserChatRoom = {
+        const chatRoomToAddToCurrentUser: UserChatRoom = {
           roomId: room.uid,
           otherUserId: otherUser.uid,
         };
         const senderUserUpdate = Collections.Users.doc(currentUser.uid).update({
-          chatRooms: firestore.FieldValue.arrayUnion(chatRoomForSenderUser),
+          chatRooms: firestore.FieldValue.arrayUnion(
+            chatRoomToAddToCurrentUser,
+          ),
         });
 
-        const chatRoomForReceiverUser: UserChatRoom = {
+        const chatRoomToAddToOtherUser: UserChatRoom = {
           roomId: room.uid,
           otherUserId: currentUser.uid,
         };
         const receiverUserUpdate = Collections.Users.doc(otherUser.uid).update({
-          chatRooms: firestore.FieldValue.arrayUnion(chatRoomForReceiverUser),
+          chatRooms: firestore.FieldValue.arrayUnion(chatRoomToAddToOtherUser),
         });
 
         await Promise.all([senderUserUpdate, receiverUserUpdate]);
+
+        dispatch(
+          Actions.User.Reducer.addOwnChatRoom({
+            room: chatRoomToAddToCurrentUser,
+          }),
+        );
+        dispatch(
+          Actions.User.Reducer.addChatRoomToUser({
+            room: chatRoomToAddToCurrentUser,
+            userId: otherUser.uid,
+          }),
+        );
 
         navigation.setParams({chatRoomId: room.uid});
       } else {
@@ -81,7 +99,14 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
         console.log('onSend: message added to existing chatRoom: ', chatRoomId);
       }
     },
-    [chatRoomId, createChatRoom, currentUser.uid, navigation, otherUser.uid],
+    [
+      chatRoomId,
+      createChatRoom,
+      currentUser.uid,
+      dispatch,
+      navigation,
+      otherUser.uid,
+    ],
   );
 
   return (

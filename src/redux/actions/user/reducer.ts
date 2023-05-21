@@ -1,3 +1,4 @@
+import {UserChatRoom} from '../../../types';
 import {createActionCreator} from '../../ActionCreator';
 import {GetAllUsersSuccessPayload, SignUpSuccessPayload} from './types';
 
@@ -12,4 +13,19 @@ const getAllUsersSuccess = createActionCreator<GetAllUsersSuccessPayload>(
   'GET_ALL_USERS_SUCCESS',
 );
 
-export {signInSuccess, signUpSuccess, logout, getAllUsersSuccess};
+const addOwnChatRoom = createActionCreator<{room: UserChatRoom}>(
+  'ADD_OWN_CHAT_ROOM',
+);
+const addChatRoomToUser = createActionCreator<{
+  userId: string;
+  room: UserChatRoom;
+}>('ADD_CHAT_ROOM_TO_USER');
+
+export {
+  signInSuccess,
+  signUpSuccess,
+  logout,
+  getAllUsersSuccess,
+  addOwnChatRoom,
+  addChatRoomToUser,
+};
