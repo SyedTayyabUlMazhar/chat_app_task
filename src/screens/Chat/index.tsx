@@ -1,41 +1,77 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {GiftedChat, IMessage} from 'react-native-gifted-chat';
+import firestore from '@react-native-firebase/firestore';
+import React, {useCallback, useState} from 'react';
+import {IMessage} from 'react-native-gifted-chat';
+import uuid from 'react-native-uuid';
+import Collections from '../../collections';
 import Components from '../../components';
+import useSelector from '../../hooks/useSelector';
+import Routes from '../../navigator/routes';
+import {AppStackScreenProps, ChatRoom, UserChatRoom} from '../../types';
 
-const PROFILE_PIC =
-  'https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg';
+export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
+  const {
+    route: {
+      params: {otherUser},
+    },
+  } = props;
 
-export function Chat() {
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const currentUser = useSelector(state => state.user.user)!;
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: PROFILE_PIC,
-        },
-      },
-    ]);
-  }, []);
+  const [messages] = useState<IMessage[]>([]);
+  // {"_id": "f05e0208-11b1-48b0-82b4-2243214438a7", "createdAt": 2023-05-21T18:42:37.747Z, "text": "S", "user": {"_id": 1}}
+  const createChatRoom = useCallback(
+    (iMessage: IMessage) => {
+      const message = {
+        uid: iMessage._id as string,
+        senderId: iMessage.user._id as string,
+        receiverId: otherUser.uid,
+        content: iMessage.text,
+        timestamp: new Date(),
+      };
+      const room: ChatRoom = {
+        uid: uuid.v4() as string,
+        participants: [otherUser.uid, currentUser.uid],
+        messages: [message],
+        lastMessage: message,
+      };
+      return room;
+    },
+    [currentUser.uid, otherUser.uid],
+  );
 
-  const onSend = useCallback((messages: IMessage[] = []) => {
-    console.log('Messages:', messages);
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    );
-  }, []);
+  const onSend = useCallback(
+    async (newMessages: IMessage[] = []) => {
+      console.log('Messages:', newMessages);
+      const room = createChatRoom(newMessages[0]);
+      await Collections.ChatRooms.doc(room.uid).set(room);
+
+      const chatRoomForSenderUser: UserChatRoom = {
+        roomId: room.uid,
+        otherUserId: otherUser.uid,
+      };
+      const senderUserUpdate = Collections.Users.doc(currentUser.uid).update({
+        chatRooms: firestore.FieldValue.arrayUnion(chatRoomForSenderUser),
+      });
+
+      const chatRoomForReceiverUser: UserChatRoom = {
+        roomId: room.uid,
+        otherUserId: currentUser.uid,
+      };
+      const receiverUserUpdate = Collections.Users.doc(otherUser.uid).update({
+        chatRooms: firestore.FieldValue.arrayUnion(chatRoomForReceiverUser),
+      });
+
+      await Promise.all([senderUserUpdate, receiverUserUpdate]);
+    },
+    [createChatRoom, currentUser.uid, otherUser.uid],
+  );
 
   return (
     <Components.ThemedGiftedChat
       messages={messages}
       onSend={onSend}
       user={{
-        _id: 1,
+        _id: currentUser.uid,
       }}
     />
   );
