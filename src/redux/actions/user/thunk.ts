@@ -1,7 +1,8 @@
 import {ReactNativeFirebase} from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
-import {Dispatch} from '@reduxjs/toolkit';
+import {Action, Dispatch, ThunkAction} from '@reduxjs/toolkit';
 import Actions from '..';
+import {RootState} from '../..';
 import Collections from '../../../collections';
 import FirebaseUtil from '../../../utils/FirebaseUtil';
 import MessageUtil from '../../../utils/MessageUtil';
@@ -62,4 +63,25 @@ const logoutRequest = () => async (dispatch: Dispatch) => {
   dispatch(Actions.User.Reducer.logout({}));
 };
 
-export {signInRequest, signUpRequest, logoutRequest};
+const getAllUsers =
+  (): ThunkAction<Promise<{ok: boolean}>, RootState, {}, Action<any>> =>
+  async (dispatch, getState) => {
+    try {
+      console.log('getAllUsers');
+      const currentUserId = getState().user.user?.uid;
+
+      const users = (
+        await Collections.Users.where('uid', '!=', currentUserId).get()
+      ).docs.map(doc => doc.data());
+
+      dispatch(Actions.User.Reducer.getAllUsersSuccess({users}));
+
+      return {ok: true};
+    } catch (e) {
+      FirebaseUtil.getFormattedError(
+        e as ReactNativeFirebase.NativeFirebaseError,
+      );
+      return {ok: false};
+    }
+  };
+export {signInRequest, signUpRequest, logoutRequest, getAllUsers};

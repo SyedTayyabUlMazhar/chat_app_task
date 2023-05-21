@@ -2,7 +2,9 @@ import {createReducer} from '@reduxjs/toolkit';
 import Actions from '../../actions';
 import {UserReducerType} from './types';
 
-const initialState: UserReducerType = {};
+const initialState: UserReducerType = {
+  users: [],
+};
 
 const isSignUpOrSignInSuccessAction = (action: {type: string}) =>
   [
@@ -12,6 +14,11 @@ const isSignUpOrSignInSuccessAction = (action: {type: string}) =>
 
 const UserReducer = createReducer(initialState, builder => {
   builder.addCase(Actions.User.Reducer.logout, () => initialState);
+
+  builder.addCase(Actions.User.Reducer.getAllUsersSuccess, (state, action) => {
+    state.users = action.payload.users;
+  });
+
   builder.addMatcher(isSignUpOrSignInSuccessAction, (state, action) => {
     state.user = action.payload.user;
   });

@@ -1,5 +1,5 @@
 import {createActionCreator} from '../../ActionCreator';
-import {SignUpSuccessPayload} from './types';
+import {GetAllUsersSuccessPayload, SignUpSuccessPayload} from './types';
 
 const signInSuccess =
   createActionCreator<SignUpSuccessPayload>('SIGN_IN_SUCCESS');
@@ -8,4 +8,8 @@ const signUpSuccess =
 
 const logout = createActionCreator('LOGOUT');
 
-export {signInSuccess, signUpSuccess, logout};
+const getAllUsersSuccess = createActionCreator<GetAllUsersSuccessPayload>(
+  'GET_ALL_USERS_SUCCESS',
+);
+
+export {signInSuccess, signUpSuccess, logout, getAllUsersSuccess};
