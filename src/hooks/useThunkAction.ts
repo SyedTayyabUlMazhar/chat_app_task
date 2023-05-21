@@ -1,10 +1,13 @@
-import {Dispatch} from '@reduxjs/toolkit';
-import {useState} from 'react';
+import {Action, Dispatch, ThunkAction} from '@reduxjs/toolkit';
+import {useCallback, useMemo, useState} from 'react';
 import useDispatch from '../hooks/useDispatch';
+import {RootState} from '../redux';
 
 const useThunkAction = <
   T extends any = {ok: boolean},
-  Fn extends (...args: any[]) => (dispatch: Dispatch) => Promise<T> = (
+  Fn extends (
+    ...args: any[]
+  ) => ThunkAction<Promise<T>, RootState, {}, Action<any>> = (
     ...args: any[]
   ) => (dispatch: Dispatch) => Promise<T>,
 >(
@@ -13,14 +16,19 @@ const useThunkAction = <
   const _dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  const dispatch = async (...args: Parameters<typeof action>) => {
-    setIsLoading(true);
-    const result = await _dispatch(action(...args));
-    setIsLoading(false);
-    return result;
-  };
+  const dispatch = useCallback(
+    async (...args: Parameters<typeof action>) => {
+      setIsLoading(true);
+      const result = await _dispatch(action(...args));
+      setIsLoading(false);
+      return result;
+    },
+    [_dispatch, action],
+  );
 
-  return {dispatch, isLoading};
+  const result = useMemo(() => ({dispatch, isLoading}), [dispatch, isLoading]);
+
+  return result;
 };
 
 export default useThunkAction;
