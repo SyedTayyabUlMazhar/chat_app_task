@@ -10,6 +10,7 @@ export type User = {
   uid: string;
   name: string;
   email: string;
+  chatRooms: UserChatRoom[];
 };
 
 export type AuthStackScreenProps<K extends keyof AuthStackParamList> =
@@ -20,3 +21,8 @@ export type AppStackScreenProps<K extends keyof AppStackParamList> =
 
 export type BottomTabScreenProps<K extends keyof BottomTabParamList> =
   RNBottomTabScreenProps<BottomTabParamList, K>;
+
+export type UserChatRoom = {
+  roomId: string;
+  otherUserId: string;
+};

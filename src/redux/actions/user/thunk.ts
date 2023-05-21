@@ -7,6 +7,7 @@ import Collections from '../../../collections';
 import FirebaseUtil from '../../../utils/FirebaseUtil';
 import MessageUtil from '../../../utils/MessageUtil';
 import TimeUtil from '../../../utils/TimeUtil';
+import {User} from '../../../types';
 
 const signInRequest =
   (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -41,10 +42,11 @@ const signUpRequest =
         email,
         password,
       );
-      const userData = {
+      const userData: User = {
         uid: authResult.user.uid,
         email,
         name,
+        chatRooms: [],
       };
       await Collections.Users.doc(authResult.user.uid).set(userData);
       dispatch(Actions.User.Reducer.signUpSuccess({user: userData}));
