@@ -31,7 +31,7 @@ export type ChatMessage = {
   uid: string;
   senderId: string;
   receiverId: string;
-  timestamp: Date;
+  timestamp: number;
   content: string;
 };
 

@@ -8,7 +8,7 @@ class ChatUtil {
       senderId: iMessage.user._id as string,
       receiverId: receiverId,
       content: iMessage.text,
-      timestamp: new Date(),
+      timestamp: new Date().getTime(),
     };
     return message;
   }
