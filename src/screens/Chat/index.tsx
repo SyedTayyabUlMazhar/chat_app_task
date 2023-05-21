@@ -7,6 +7,7 @@ import Components from '../../components';
 import useSelector from '../../hooks/useSelector';
 import Routes from '../../navigator/routes';
 import {AppStackScreenProps, ChatRoom, UserChatRoom} from '../../types';
+import ChatUtil from '../../utils/ChatUtil';
 
 export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
   const {
@@ -21,13 +22,7 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
   // {"_id": "f05e0208-11b1-48b0-82b4-2243214438a7", "createdAt": 2023-05-21T18:42:37.747Z, "text": "S", "user": {"_id": 1}}
   const createChatRoom = useCallback(
     (iMessage: IMessage) => {
-      const message = {
-        uid: iMessage._id as string,
-        senderId: iMessage.user._id as string,
-        receiverId: otherUser.uid,
-        content: iMessage.text,
-        timestamp: new Date(),
-      };
+      const message = ChatUtil.chatMessageFromIMessage(iMessage, otherUser.uid);
       const room: ChatRoom = {
         uid: uuid.v4() as string,
         participants: [otherUser.uid, currentUser.uid],
