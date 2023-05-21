@@ -10,12 +10,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import useTheme from '../hooks/useTheme';
 import {BottomTabParamList} from './types';
 import Routes from './routes';
+import Screens from '../screens';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
-const People = () => {
-  return <View />;
-};
 const Chat = () => {
   return <View />;
 };
@@ -61,7 +59,7 @@ function BottomTabNavigator() {
       />
       <Tab.Screen
         name={Routes.People}
-        component={People}
+        component={Screens.People}
         options={{
           tabBarIcon: homeTabIcon,
         }}
