@@ -43,11 +43,11 @@ const People = (props: BottomTabScreenProps<typeof Routes.People>) => {
     setIsRefreshing(false);
   };
 
-  const onMessageIconPress = () => {
+  const onMessageIconPress = (user: User) => {
     const appNavigator =
       navigation.getParent<NavigationProp<AppStackParamList>>();
 
-    appNavigator.navigate(Routes.Chat);
+    appNavigator.navigate(Routes.Chat, {otherUser: user});
   };
 
   const renderItem: ListRenderItem<User> = ({item}) => (
@@ -61,7 +61,9 @@ const People = (props: BottomTabScreenProps<typeof Routes.People>) => {
       <Components.Text.TextOnSecondary>
         {item.name}
       </Components.Text.TextOnSecondary>
-      <TouchableOpacity style={styles.messageIcon} onPress={onMessageIconPress}>
+      <TouchableOpacity
+        style={styles.messageIcon}
+        onPress={() => onMessageIconPress(item)}>
         <MaterialIcons name="message" color={theme.secondaryText} size={28} />
       </TouchableOpacity>
     </View>

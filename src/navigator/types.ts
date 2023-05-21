@@ -1,3 +1,4 @@
+import {ChatRoom, User} from '../types';
 import Routes from './routes';
 
 export type AuthStackParamList = {
@@ -7,7 +8,7 @@ export type AuthStackParamList = {
 
 export type AppStackParamList = {
   [Routes.BottomTabNavigator]: undefined;
-  [Routes.Chat]: undefined;
+  [Routes.Chat]: {otherUser: User; chatRoom?: ChatRoom};
 };
 
 export type BottomTabParamList = {
