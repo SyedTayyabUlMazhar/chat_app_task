@@ -4,6 +4,7 @@ const Routes = {
   BottomTabNavigator: 'BottomTabNavigator',
   People: 'People',
   Conversations: 'Conversations',
+  Chat: 'Chat',
 } as const;
 
 export default Routes;

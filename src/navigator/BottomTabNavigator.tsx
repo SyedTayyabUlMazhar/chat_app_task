@@ -5,12 +5,12 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import useTheme from '../hooks/useTheme';
-import {BottomTabParamList} from './types';
-import Routes from './routes';
 import Screens from '../screens';
+import Routes from './routes';
+import {BottomTabParamList} from './types';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 

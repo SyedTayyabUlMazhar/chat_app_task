@@ -43,6 +43,7 @@ const Navigator = () => {
           title: '',
         }}
       />
+      <AppStack.Screen name={Routes.Chat} component={Screens.Chat} />
     </AppStack.Navigator>
   ) : (
     <AuthStack.Navigator

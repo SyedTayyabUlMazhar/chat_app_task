@@ -1,3 +1,4 @@
+import {NavigationProp} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
@@ -12,15 +13,19 @@ import Components from '../../components';
 import useSelector from '../../hooks/useSelector';
 import useTheme from '../../hooks/useTheme';
 import useThunkAction from '../../hooks/useThunkAction';
+import Routes from '../../navigator/routes';
+import {AppStackParamList} from '../../navigator/types';
 import Actions from '../../redux/actions';
-import {User} from '../../types';
+import {BottomTabScreenProps, User} from '../../types';
 import ListEmptyComponent from './ListEmptyComponent';
 import styles from './styles';
 
 const PROFILE_PIC =
   'https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg';
 
-const People = () => {
+const People = (props: BottomTabScreenProps<typeof Routes.People>) => {
+  const {navigation} = props;
+
   const theme = useTheme();
 
   const users = useSelector(state => state.user.users);
@@ -38,6 +43,13 @@ const People = () => {
     setIsRefreshing(false);
   };
 
+  const onMessageIconPress = () => {
+    const appNavigator =
+      navigation.getParent<NavigationProp<AppStackParamList>>();
+
+    appNavigator.navigate(Routes.Chat);
+  };
+
   const renderItem: ListRenderItem<User> = ({item}) => (
     <View style={styles.itemContainer}>
       <Image
@@ -49,7 +61,7 @@ const People = () => {
       <Components.Text.TextOnSecondary>
         {item.name}
       </Components.Text.TextOnSecondary>
-      <TouchableOpacity style={styles.messageIcon}>
+      <TouchableOpacity style={styles.messageIcon} onPress={onMessageIconPress}>
         <MaterialIcons name="message" color={theme.secondaryText} size={28} />
       </TouchableOpacity>
     </View>

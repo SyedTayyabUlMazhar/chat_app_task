@@ -7,6 +7,7 @@ export type AuthStackParamList = {
 
 export type AppStackParamList = {
   [Routes.BottomTabNavigator]: undefined;
+  [Routes.Chat]: undefined;
 };
 
 export type BottomTabParamList = {
