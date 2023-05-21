@@ -9,6 +9,7 @@ import useTheme from '../hooks/useTheme';
 import Screens from '../screens';
 import Routes from './routes';
 import {AppStackParamList, AuthStackParamList} from './types';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const AuthStack = createStackNavigator<AuthStackParamList>();
 const AppStack = createStackNavigator<AppStackParamList>();
@@ -36,9 +37,10 @@ const Navigator = () => {
     <AppStack.Navigator screenOptions={screenOptions}>
       <AppStack.Screen
         name="Home"
-        component={Screens.Home}
+        component={BottomTabNavigator}
         options={{
           headerRight: headerRight,
+          title: '',
         }}
       />
     </AppStack.Navigator>

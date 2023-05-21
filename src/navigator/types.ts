@@ -8,3 +8,8 @@ export type AuthStackParamList = {
 export type AppStackParamList = {
   [Routes.Home]: undefined;
 };
+
+export type BottomTabParamList = {
+  [Routes.People]: undefined;
+  [Routes.Chat]: undefined;
+};
