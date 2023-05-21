@@ -1,15 +1,28 @@
+import {NavigationProp} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Image, ListRenderItem, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ListRenderItem,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Collections from '../../collections';
 import Components from '../../components';
+import useSelector from '../../hooks/useSelector';
+import Routes from '../../navigator/routes';
+import {AppStackParamList} from '../../navigator/types';
+import {BottomTabScreenProps, Conversation} from '../../types';
 import ListEmptyComponent from './ListEmptyComponent';
 import styles from './styles';
-import {Conversation} from '../../types';
-import Collections from '../../collections';
-import useSelector from '../../hooks/useSelector';
 const PROFILE_PIC =
   'https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg';
 
-const Conversations = () => {
+const Conversations = (
+  props: BottomTabScreenProps<typeof Routes.Conversations>,
+) => {
+  const {navigation} = props;
+
   const [conversations, setConversations] = useState<Conversation[]>([]);
 
   const currentUserId = useSelector(state => state.user.user?.uid);
@@ -46,8 +59,19 @@ const Conversations = () => {
     });
   }, [currentUserId]);
 
+  const onConversationItemPress = (item: Conversation) => {
+    const appNavigator =
+      navigation.getParent<NavigationProp<AppStackParamList>>();
+
+    appNavigator.navigate(Routes.Chat, {
+      chatRoomId: item.roomId,
+      otherUser: item.otherUser,
+    });
+  };
   const renderItem: ListRenderItem<Conversation> = ({item}) => (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity
+      onPress={() => onConversationItemPress(item)}
+      style={styles.itemContainer}>
       <Image
         source={{
           uri: PROFILE_PIC,
@@ -62,7 +86,7 @@ const Conversations = () => {
           {item.lastMessage}
         </Components.Text.TextOnSecondary>
       </View>
-    </View>
+    </TouchableOpacity>
   );
   return (
     <View style={styles.container}>
