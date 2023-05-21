@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {IMessage} from 'react-native-gifted-chat';
 import uuid from 'react-native-uuid';
 import Collections from '../../collections';
@@ -28,8 +28,39 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
 
   const currentUser = useSelector(state => state.user.user)!;
 
-  const [messages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   // {"_id": "f05e0208-11b1-48b0-82b4-2243214438a7", "createdAt": 2023-05-21T18:42:37.747Z, "text": "S", "user": {"_id": 1}}
+
+  useEffect(() => {
+    const unsubscribe = Collections.ChatRooms.doc(chatRoomId).onSnapshot(
+      snapshot => {
+        const latestMessages = snapshot.data()?.messages ?? [];
+        const iMessages: IMessage[] = [];
+
+        for (let i = latestMessages.length - 1; i >= 0; i--) {
+          const message = latestMessages[i];
+
+          const iMessage = {
+            _id: message.uid,
+            text: message.content,
+            createdAt: message.timestamp,
+            user: {
+              _id: message.senderId,
+              name:
+                message.senderId === currentUser.uid
+                  ? currentUser.name
+                  : otherUser.name,
+            },
+          };
+
+          iMessages.push(iMessage);
+        }
+        setMessages(iMessages);
+      },
+    );
+    return unsubscribe;
+  }, [chatRoomId, currentUser.name, currentUser.uid, otherUser.name]);
+
   const createChatRoom = useCallback(
     (iMessage: IMessage) => {
       const message = ChatUtil.chatMessageFromIMessage(iMessage, otherUser.uid);
