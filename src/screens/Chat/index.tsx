@@ -38,28 +38,18 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
         const iMessages: IMessage[] = [];
 
         for (let i = latestMessages.length - 1; i >= 0; i--) {
-          const message = latestMessages[i];
-
-          const iMessage = {
-            _id: message.uid,
-            text: message.content,
-            createdAt: message.timestamp,
-            user: {
-              _id: message.senderId,
-              name:
-                message.senderId === currentUser.uid
-                  ? currentUser.name
-                  : otherUser.name,
-            },
-          };
-
-          iMessages.push(iMessage);
+          iMessages.push(
+            ChatUtil.iMessageFromChatMessage(latestMessages[i], [
+              currentUser,
+              otherUser,
+            ]),
+          );
         }
         setMessages(iMessages);
       },
     );
     return unsubscribe;
-  }, [chatRoomId, currentUser.name, currentUser.uid, otherUser.name]);
+  }, [chatRoomId, currentUser, otherUser]);
 
   const createChatRoom = useCallback(
     (iMessage: IMessage) => {
