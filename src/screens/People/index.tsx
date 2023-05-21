@@ -31,7 +31,7 @@ const People = (props: BottomTabScreenProps<typeof Routes.People>) => {
   const users = useSelector(state => state.user.users);
   const getAllUsersAction = useThunkAction(Actions.User.Thunk.getAllUsers);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const ownChatRooms = useSelector(state => state.user.user?.chatRooms ?? []);
+  const ownChatRooms = useSelector(state => state.user.myRooms ?? []);
 
   useEffect(() => {
     getAllUsersAction.dispatch();

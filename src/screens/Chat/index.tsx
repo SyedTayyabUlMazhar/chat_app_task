@@ -20,7 +20,7 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
   const {
     navigation,
     route: {
-      params: {otherUser, chatRoomId},
+      params: {otherUser, chatRoomId: paramChatRoomId},
     },
   } = props;
 
@@ -30,6 +30,12 @@ export function Chat(props: AppStackScreenProps<typeof Routes.Chat>) {
 
   const [messages, setMessages] = useState<IMessage[]>([]);
   // {"_id": "f05e0208-11b1-48b0-82b4-2243214438a7", "createdAt": 2023-05-21T18:42:37.747Z, "text": "S", "user": {"_id": 1}}
+  const chatRoomId = useSelector(
+    state =>
+      paramChatRoomId ??
+      state.user.myRooms.find(room => room.otherUserId === otherUser.uid)
+        ?.roomId,
+  );
 
   useEffect(() => {
     const unsubscribe = Collections.ChatRooms.doc(chatRoomId).onSnapshot(

@@ -1,5 +1,5 @@
 import {NavigationProp} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   Image,
@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import Collections from '../../collections';
 import Components from '../../components';
+import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
 import Routes from '../../navigator/routes';
 import {AppStackParamList} from '../../navigator/types';
+import Actions from '../../redux/actions';
 import {BottomTabScreenProps, Conversation} from '../../types';
 import ListEmptyComponent from './ListEmptyComponent';
 import styles from './styles';
@@ -22,8 +24,9 @@ const Conversations = (
   props: BottomTabScreenProps<typeof Routes.Conversations>,
 ) => {
   const {navigation} = props;
+  const dispatch = useDispatch();
 
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const conversations = useSelector(state => state.user.conversations ?? []);
 
   const currentUserId = useSelector(state => state.user.user?.uid);
 
@@ -34,6 +37,9 @@ const Conversations = (
     Collections.Users.doc(currentUserId).onSnapshot(async snapshot => {
       const chatRooms = snapshot.data()?.chatRooms ?? [];
       console.log('ChatRooms:', chatRooms);
+      dispatch(
+        Actions.User.Reducer.fetchOwnChatRoomsSuccess({rooms: chatRooms}),
+      );
       const latestConvosPromises = chatRooms.map(async chatRoom => {
         const roomId = chatRoom.roomId;
 
@@ -55,9 +61,13 @@ const Conversations = (
 
       const latestConvos = await Promise.all(latestConvosPromises);
 
-      setConversations(latestConvos);
+      dispatch(
+        Actions.User.Reducer.fetchOwnConversationsSuccess({
+          conversations: latestConvos,
+        }),
+      );
     });
-  }, [currentUserId]);
+  }, [currentUserId, dispatch]);
 
   const onConversationItemPress = (item: Conversation) => {
     const appNavigator =
