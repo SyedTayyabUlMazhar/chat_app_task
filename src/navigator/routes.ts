@@ -3,7 +3,7 @@ const Routes = {
   LogIn: 'LogIn',
   BottomTabNavigator: 'BottomTabNavigator',
   People: 'People',
-  Chat: 'Chat',
+  Conversations: 'Conversations',
 } as const;
 
 export default Routes;

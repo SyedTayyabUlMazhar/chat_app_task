@@ -14,7 +14,7 @@ import Screens from '../screens';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
-const Chat = () => {
+const Conversations = () => {
   return <View />;
 };
 
@@ -51,8 +51,8 @@ function BottomTabNavigator() {
         backgroundColor: theme.background,
       }}>
       <Tab.Screen
-        name={Routes.Chat}
-        component={Chat}
+        name={Routes.Conversations}
+        component={Conversations}
         options={{
           tabBarIcon: chatTabIcon,
         }}

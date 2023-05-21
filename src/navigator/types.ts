@@ -11,5 +11,5 @@ export type AppStackParamList = {
 
 export type BottomTabParamList = {
   [Routes.People]: undefined;
-  [Routes.Chat]: undefined;
+  [Routes.Conversations]: undefined;
 };
