@@ -1,8 +1,8 @@
 import React from 'react';
 import {View} from 'react-native';
 
-const Home = () => {
+const People = () => {
   return <View />;
 };
 
-export default Home;
+export default People;

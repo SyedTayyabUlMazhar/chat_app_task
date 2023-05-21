@@ -1,7 +1,7 @@
 import SignUp from './SignUp';
 import LogIn from './LogIn';
-import Home from './Home';
+import People from './People';
 
-const Screens = {SignUp, LogIn, Home};
+const Screens = {SignUp, LogIn, People};
 
 export default Screens;
