@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo} from 'react';
-import {View} from 'react-native';
 
 import {
   BottomTabNavigationOptions,
@@ -13,10 +12,6 @@ import Routes from './routes';
 import {BottomTabParamList} from './types';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
-
-const Conversations = () => {
-  return <View />;
-};
 
 function BottomTabNavigator() {
   const theme = useTheme();
@@ -52,7 +47,7 @@ function BottomTabNavigator() {
       }}>
       <Tab.Screen
         name={Routes.Conversations}
-        component={Conversations}
+        component={Screens.Conversations}
         options={{
           tabBarIcon: chatTabIcon,
         }}
