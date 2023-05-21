@@ -5,4 +5,11 @@ export type ThemeType = {
   primaryText: string;
   secondaryText: string;
   error: string;
+
+  chat: {
+    sentMessageBackground: string;
+    sentMessageText: string;
+    receivedMessageBackground: string;
+    receivedMessageText: string;
+  };
 };
