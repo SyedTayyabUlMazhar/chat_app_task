@@ -5,6 +5,7 @@ import Actions from '..';
 import Collections from '../../../collections';
 import FirebaseUtil from '../../../utils/FirebaseUtil';
 import MessageUtil from '../../../utils/MessageUtil';
+import TimeUtil from '../../../utils/TimeUtil';
 
 const signInRequest =
   (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -56,6 +57,7 @@ const signUpRequest =
   };
 
 const logoutRequest = () => async (dispatch: Dispatch) => {
+  await TimeUtil.delay(500);
   await auth().signOut();
   dispatch(Actions.User.Reducer.logout({}));
 };

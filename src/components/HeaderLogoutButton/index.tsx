@@ -1,22 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Components from '..';
-import styles from './styles';
-import useDispatch from '../../hooks/useDispatch';
+import useThunkAction from '../../hooks/useThunkAction';
 import Actions from '../../redux/actions';
-import TimeUtil from '../../utils/TimeUtil';
+import styles from './styles';
 
 export type Props = {};
 
 const HeaderLogoutButton = () => {
-  const dispatch = useDispatch();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const logoutAction = useThunkAction<void>(Actions.User.Thunk.logoutRequest);
 
   const onPress = async () => {
-    setIsLoading(true);
-    await TimeUtil.delay(500);
-    await dispatch(Actions.User.Thunk.logoutRequest());
-    setIsLoading(false);
+    logoutAction.dispatch();
   };
 
   return (
@@ -24,7 +18,7 @@ const HeaderLogoutButton = () => {
       style={styles.headerRight}
       title="Logout"
       TextComponent={Components.Text.TextOnSecondary}
-      isLoading={isLoading}
+      isLoading={logoutAction.isLoading}
       onPress={onPress}
     />
   );

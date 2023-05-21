@@ -1,9 +1,9 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {useState} from 'react';
+import React from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import Components from '../../components';
-import useDispatch from '../../hooks/useDispatch';
+import useThunkAction from '../../hooks/useThunkAction';
 import Routes from '../../navigator/routes';
 import Actions from '../../redux/actions';
 import {AuthStackScreenProps} from '../../types';
@@ -21,14 +21,11 @@ const LogIn = (props: AuthStackScreenProps<typeof Routes.LogIn>) => {
       : undefined,
   });
 
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const loginAction = useThunkAction(Actions.User.Thunk.signInRequest);
 
-  const onSubmit: SubmitHandler<LogInFields> = async data => {
+  const onSubmit: SubmitHandler<LogInFields> = data => {
     console.log('onSubmit: ', data);
-    setIsLoading(true);
-    await dispatch(Actions.User.Thunk.signInRequest(data.email, data.password));
-    setIsLoading(false);
+    loginAction.dispatch(data.email, data.password);
   };
 
   const goToSignUpScreen = () => navigation.navigate('SignUp');
@@ -54,7 +51,7 @@ const LogIn = (props: AuthStackScreenProps<typeof Routes.LogIn>) => {
           title="Login"
           style={styles.button}
           onPress={form.handleSubmit(onSubmit)}
-          isLoading={isLoading}
+          isLoading={loginAction.isLoading}
         />
       </View>
       <Components.Text.TextOnSecondary style={styles.dontHaveAnAccountText}>

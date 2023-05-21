@@ -1,9 +1,9 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {useState} from 'react';
+import React from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import Components from '../../components';
-import useDispatch from '../../hooks/useDispatch';
+import useThunkAction from '../../hooks/useThunkAction';
 import Actions from '../../redux/actions';
 import {SignUpFields, SignUpSchema} from './schema';
 import styles from './styles';
@@ -17,16 +17,11 @@ const SignUp = () => {
       : undefined,
   });
 
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const signUpAction = useThunkAction(Actions.User.Thunk.signUpRequest);
 
   const onSubmit: SubmitHandler<SignUpFields> = async data => {
     console.log('onSubmit: ', data);
-    setIsLoading(true);
-    await dispatch(
-      Actions.User.Thunk.signUpRequest(data.email, data.password, data.name),
-    );
-    setIsLoading(false);
+    signUpAction.dispatch(data.email, data.password, data.name);
   };
 
   return (
@@ -55,7 +50,7 @@ const SignUp = () => {
         title="Signup"
         style={styles.button}
         onPress={form.handleSubmit(onSubmit)}
-        isLoading={isLoading}
+        isLoading={signUpAction.isLoading}
       />
     </View>
   );
