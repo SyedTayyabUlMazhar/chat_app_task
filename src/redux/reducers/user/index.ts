@@ -4,6 +4,8 @@ import {UserReducerType} from './types';
 
 const initialState: UserReducerType = {
   users: [],
+  myRooms: [],
+  conversations: [],
 };
 
 const isSignUpOrSignInSuccessAction = (action: {type: string}) =>
@@ -28,6 +30,20 @@ const UserReducer = createReducer(initialState, builder => {
       .find(user => user.uid === action.payload.userId)
       ?.chatRooms.push(action.payload.room);
   });
+
+  builder.addCase(
+    Actions.User.Reducer.fetchOwnChatRoomsSuccess,
+    (state, action) => {
+      state.myRooms = action.payload.rooms;
+    },
+  );
+
+  builder.addCase(
+    Actions.User.Reducer.fetchOwnConversationsSuccess,
+    (state, action) => {
+      state.conversations = action.payload.conversations;
+    },
+  );
 
   builder.addMatcher(isSignUpOrSignInSuccessAction, (state, action) => {
     state.user = action.payload.user;

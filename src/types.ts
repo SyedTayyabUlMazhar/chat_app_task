@@ -41,3 +41,9 @@ export type ChatRoom = {
   messages: ChatMessage[];
   lastMessage?: ChatMessage;
 };
+
+export type Conversation = {
+  roomId: string;
+  otherUser: User;
+  lastMessage: string;
+};
