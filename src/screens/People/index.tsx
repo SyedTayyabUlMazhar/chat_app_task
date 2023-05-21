@@ -31,6 +31,7 @@ const People = (props: BottomTabScreenProps<typeof Routes.People>) => {
   const users = useSelector(state => state.user.users);
   const getAllUsersAction = useThunkAction(Actions.User.Thunk.getAllUsers);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const ownChatRooms = useSelector(state => state.user.user?.chatRooms ?? []);
 
   useEffect(() => {
     getAllUsersAction.dispatch();
@@ -47,7 +48,14 @@ const People = (props: BottomTabScreenProps<typeof Routes.People>) => {
     const appNavigator =
       navigation.getParent<NavigationProp<AppStackParamList>>();
 
-    appNavigator.navigate(Routes.Chat, {otherUser: user});
+    const chatRoomWithOtherUser = ownChatRooms.find(
+      ({otherUserId}) => otherUserId === user.uid,
+    );
+
+    appNavigator.navigate(Routes.Chat, {
+      otherUser: user,
+      chatRoomId: chatRoomWithOtherUser?.roomId,
+    });
   };
 
   const renderItem: ListRenderItem<User> = ({item}) => (
