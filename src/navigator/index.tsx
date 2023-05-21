@@ -36,7 +36,7 @@ const Navigator = () => {
   return isLoggedIn ? (
     <AppStack.Navigator screenOptions={screenOptions}>
       <AppStack.Screen
-        name="Home"
+        name={Routes.BottomTabNavigator}
         component={BottomTabNavigator}
         options={{
           headerRight: headerRight,

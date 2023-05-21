@@ -1,7 +1,7 @@
 const Routes = {
   SignUp: 'SignUp',
   LogIn: 'LogIn',
-  Home: 'Home',
+  BottomTabNavigator: 'BottomTabNavigator',
   People: 'People',
   Chat: 'Chat',
 } as const;
