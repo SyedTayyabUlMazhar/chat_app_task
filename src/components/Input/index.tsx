@@ -25,6 +25,16 @@ const Input = (props: InputProps) => {
 
   const [isFocused, setIsFoucsed] = useState(false);
 
+  const _inputStyle = [
+    styles.input,
+    styles.defaultBorder,
+    isFocused ? {borderColor: theme.primary} : null,
+    Suffix ? styles.noEndBorder : null,
+    Prefix ? styles.noStartBorder : null,
+    {color: theme.secondaryText},
+    inputStyle,
+  ];
+
   const _onFocus: InputProps['onFocus'] = e => {
     setIsFoucsed(true);
     onFocus?.(e);
@@ -46,15 +56,7 @@ const Input = (props: InputProps) => {
           </Affix>
         ) : null}
         <TextInput
-          style={[
-            styles.input,
-            styles.defaultBorder,
-            isFocused ? {borderColor: theme.primary} : null,
-            Suffix ? styles.noEndBorder : null,
-            Prefix ? styles.noStartBorder : null,
-            {color: theme.secondaryText},
-            inputStyle,
-          ]}
+          style={_inputStyle}
           {...rest}
           onFocus={_onFocus}
           onBlur={_onBlur}
