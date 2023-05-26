@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {TextInput, View} from 'react-native';
 import useTheme from '../../hooks/useTheme';
 import Affix from './Affix';
+import ErrorMessage from './ErrorMessage';
 import styles from './styles';
 import {InputProps} from './types';
 
@@ -68,9 +69,7 @@ const Input = (props: InputProps) => {
         ) : null}
       </View>
       {errorMessage ? (
-        <Text style={[styles.errorText, {color: theme.error}, errorStyle]}>
-          {errorMessage}
-        </Text>
+        <ErrorMessage style={errorStyle} message={errorMessage} />
       ) : null}
     </View>
   );

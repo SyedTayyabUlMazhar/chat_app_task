@@ -17,3 +17,8 @@ export type AffixProps = PropsWithChildren<{
   style?: StyleProp<ViewStyle>;
   isInputFocused: boolean;
 }>;
+
+export type ErrorMessageProps = {
+  message: string;
+  style?: StyleProp<TextStyle>;
+};
