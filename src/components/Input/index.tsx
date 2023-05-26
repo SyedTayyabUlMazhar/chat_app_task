@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {TextInput, Text, View} from 'react-native';
-import {InputProps} from './types';
-import styles from './styles';
+import {Text, TextInput, View} from 'react-native';
 import useTheme from '../../hooks/useTheme';
+import Affix from './Affix';
+import styles from './styles';
+import {InputProps} from './types';
 
 const Input = (props: InputProps) => {
   const {
@@ -12,6 +13,10 @@ const Input = (props: InputProps) => {
     errorMessage,
     inputStyle,
     errorStyle,
+    Suffix,
+    suffixContainerStyle,
+    Prefix,
+    prefixContainerStyle,
     ...rest
   } = props;
 
@@ -29,18 +34,39 @@ const Input = (props: InputProps) => {
   };
 
   return (
-    <View style={[styles.container, style]}>
-      <TextInput
-        style={[
-          styles.input,
-          isFocused ? [{borderColor: theme.primary}, styles.focused] : null,
-          {color: theme.secondaryText},
-          inputStyle,
-        ]}
-        {...rest}
-        onFocus={_onFocus}
-        onBlur={_onBlur}
-      />
+    <View style={style}>
+      <View style={styles.inputAndAffixContainer}>
+        {Prefix ? (
+          <Affix
+            isInputFocused={isFocused}
+            type="prefix"
+            style={prefixContainerStyle}>
+            <Prefix />
+          </Affix>
+        ) : null}
+        <TextInput
+          style={[
+            styles.input,
+            styles.defaultBorder,
+            isFocused ? {borderColor: theme.primary} : null,
+            Suffix ? styles.noEndBorder : null,
+            Prefix ? styles.noStartBorder : null,
+            {color: theme.secondaryText},
+            inputStyle,
+          ]}
+          {...rest}
+          onFocus={_onFocus}
+          onBlur={_onBlur}
+        />
+        {Suffix ? (
+          <Affix
+            isInputFocused={isFocused}
+            type="suffix"
+            style={suffixContainerStyle}>
+            <Suffix />
+          </Affix>
+        ) : null}
+      </View>
       {errorMessage ? (
         <Text style={[styles.errorText, {color: theme.error}, errorStyle]}>
           {errorMessage}
